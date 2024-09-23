@@ -38,4 +38,7 @@ public class PatientController(IHospitalService service,
         return Ok(patients);
     }
     
+    [HttpPost]
+    [Route("")]
+    public ActionResult<
 }
