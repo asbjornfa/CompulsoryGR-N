@@ -1,0 +1,3 @@
+Jetbrains TOolbox og installer rider igen
+- nedbryde user stories i kanban
+- En enkelt feature af gangen
