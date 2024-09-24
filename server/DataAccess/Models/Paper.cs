@@ -1,6 +1,6 @@
-﻿namespace DefaultNamespace;
+﻿namespace DataAccess.Models;
 
-public class paper
+public class Paper
 {
     public int Id { get; set; }
         public string Name { get; set; }

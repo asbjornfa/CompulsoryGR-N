@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace;
+﻿namespace DataAccess.Models;
 
 public class PaperProperty
 {

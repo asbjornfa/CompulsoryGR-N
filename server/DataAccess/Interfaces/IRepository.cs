@@ -1,23 +1,14 @@
-﻿namespace DefaultNamespace;
+﻿using DataAccess.Models;
 
-public class IRepository
-{
-    public interface IRepository<T> where T : class
+namespace DataAccess.Interfaces;
+
+
+    public interface IRepository<TEntity>
     {
-        // Hent alle poster
-        List<T> GetAll();
-
-        // Hent en post baseret på ID
-        T GetById(int id);
-
-        // Opret en ny post
-        T Create(T entity);
-
-        // Opdater en eksisterende post
-        void Update(T entity);
-
-        // Slet en post baseret på ID
+        IEnumerable<TEntity> GetAll();
+        TEntity GetById(int id);
+        void Create(TEntity item);
+        void Update(TEntity item);
         void Delete(int id);
     }
     
-}

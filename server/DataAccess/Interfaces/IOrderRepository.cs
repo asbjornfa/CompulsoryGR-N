@@ -2,7 +2,7 @@ using DataAccess.Models;
 
 namespace DataAccess.Interfaces;
 
-public interface IOrderRepsitory    
+public interface IOrderReposiory    
 {
   
         // Get all orders

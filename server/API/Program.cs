@@ -30,12 +30,12 @@ public class Program
             options.UseNpgsql(appOptions.DbConnectionString);  // Assuming PostgreSQL is used
             options.EnableSensitiveDataLogging(); // Enable for debugging, turn off in production
         });
-
+    
         // Register Fluent Validation (replace with your validators)
         builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateOrderValidator>());
 
         // Register generic repository for dependency injection
-        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(WebshopRepository<>));
 
         // Register any other necessary services (e.g., OrderService, PaperService)
         builder.Services.AddScoped<IOrderService, OrderService>();
