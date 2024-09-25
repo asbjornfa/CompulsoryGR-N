@@ -8,6 +8,7 @@
 
     
     <ItemGroup>
+      <Folder Include="DTO\Response\" />
       <Folder Include="TransferModels\" />
       <Folder Include="TransferModels\Requests\" />
       <Folder Include="TransferModels\Responses\" />
