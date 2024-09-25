@@ -1,11 +1,12 @@
 using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
+using Service.DTO.Request;
 
 namespace API.Controllers;
 
 [ApiController]
-[Route("api/paper")]
+[Route("api/[controller]")]
 public class PaperController(MyDbContext context) : ControllerBase{
 
 
@@ -17,12 +18,12 @@ public class PaperController(MyDbContext context) : ControllerBase{
     }
 
     [HttpPost]
-    [Route("{id}")]
-    public ActionResult CreatePaper([FromBody] Paper paper)
+    [Route("")]
+    public ActionResult CreatePaper([FromBody] RequestCreatePaperDTO request)
     {
-        context.Add(paper);
+        context.Add(request);
         context.SaveChanges();
-        return Ok(paper);
+        return Ok(request);
     }
     
     [HttpDelete]
