@@ -9,6 +9,65 @@
  * ---------------------------------------------------------------
  */
 
+export interface Paper {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  orderEntries?: OrderEntry[];
+  properties?: Property[];
+}
+
+export interface OrderEntry {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format int32 */
+  productId?: number | null;
+  /** @format int32 */
+  orderId?: number | null;
+  order?: Order | null;
+  product?: Paper | null;
+}
+
+export interface Order {
+  /** @format int32 */
+  id?: number;
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format double */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+  customer?: Customer | null;
+  orderEntries?: OrderEntry[];
+}
+
+export interface Customer {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  orders?: Order[];
+}
+
+export interface Property {
+  /** @format int32 */
+  id?: number;
+  propertyName?: string;
+  papers?: Paper[];
+}
+
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 import axios from "axios";
 
@@ -148,4 +207,52 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version 1.0.0
  * @baseUrl http://localhost:5000
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  api = {
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperGetPapers
+     * @request GET:/api/paper
+     */
+    paperGetPapers: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/paper`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperCreatePaper
+     * @request POST:/api/paper/{id}
+     */
+    paperCreatePaper: (id: string, data: Paper, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/paper/${id}`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperDeletePaper
+     * @request DELETE:/api/paper/{id}
+     */
+    paperDeletePaper: (id: string, data: Paper, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/paper/${id}`,
+        method: "DELETE",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
+}
