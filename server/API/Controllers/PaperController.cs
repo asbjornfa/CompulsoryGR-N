@@ -3,64 +3,53 @@ using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTO.Request;
 using Service.DTO.Response;
+using Service.Interfaces;
 
 namespace API.Controllers;
 
+
 [ApiController]
 [Route("api/[controller]")]
-public class PaperController(MyDbContext context) : ControllerBase{
+public class PaperController : ControllerBase
+{
+    private readonly IPaper _paperService;
+
+    public PaperController(IPaper paperService)
+    {
+        _paperService = paperService;
+    }
 
 
     [HttpGet]
     [Route("")]
-    public ActionResult GetPapers()
+    public async Task<ActionResult> GetPapers()
     {
-        return Ok(context.Papers.Where(p => p.Discontinued == false).ToList());
+        var allPapers = await _paperService.GetAllPapers();
+        return Ok(allPapers);
     }
 
     [HttpPost]
     [Route("")]
-    public ActionResult CreatePaper([FromBody] RequestCreatePaperDTO request)
-    {
-        // Convert the request DTO to a Paper entity
-        var paper = new Paper
-        {
-            Name = request.Name,
-            Discontinued = request.Discontinued,
-            Stock = request.Stock,
-            Price = request.Price
-        };
-    
-        // Add the new Paper entity to the database
-        context.Papers.Add(paper);
-        context.SaveChanges();
+    public async Task<ActionResult> CreatePaper([FromBody] RequestCreatePaperDTO request)
 
-        // Create a response DTO from the newly created Paper entity
-        var response = new ResponseCreatePaperDTO
         {
-            Id = paper.Id,
-            Name = paper.Name,
-            Discontinued = paper.Discontinued,
-            Stock = paper.Stock,
-            Price = paper.Price
-        };
-
-        // Return the response DTO
-        return Ok(response);
-    }
+            var createdPaper = await _paperService.CreatePaper(request);
+            return CreatedAtAction(nameof(createdPaper), new { id = createdPaper.Id}, createdPaper);
+        }
 
     
+
     [HttpDelete]
     [Route("{id}")]
-    public ActionResult DeletePaper(int id)
+    public async Task<ActionResult> DeletePaper(int id)
     {
-        var paper = context.Papers.Find(id);
+        var paper = await _paperService.GetPaperById(id);
         if (paper == null)
         {
             return NotFound();
         }
-        context.Papers.Remove(paper);
-        context.SaveChanges();
+
+        await _paperService.DeletePaper(id);
         return Ok();
     }
     

@@ -1,5 +1,10 @@
 using DataAccess;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Service.DTO.Request;
+using Service.Interfaces;
+using Service.Services;
+using Service.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +14,11 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddTransient<IValidator<RequestCreatePaperDTO>, CreatePaperValidator>(); // Tilføj din validator her
+
+builder.Services.AddScoped<IPaper, PaperService>();
 
 builder.Services.AddOpenApiDocument();
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

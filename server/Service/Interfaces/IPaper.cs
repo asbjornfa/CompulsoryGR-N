@@ -13,5 +13,6 @@ public interface IPaper
     Task<List<Paper>> GetAllPapers();
     
     Task<Paper> GetPaperById(int id);
-    
+    Task DeletePaper(int id);
+
 }
