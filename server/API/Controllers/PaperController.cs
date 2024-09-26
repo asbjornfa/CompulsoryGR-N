@@ -2,6 +2,7 @@ using DataAccess;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTO.Request;
+using Service.DTO.Response;
 
 namespace API.Controllers;
 
@@ -21,16 +22,44 @@ public class PaperController(MyDbContext context) : ControllerBase{
     [Route("")]
     public ActionResult CreatePaper([FromBody] RequestCreatePaperDTO request)
     {
-        context.Add(request);
+        // Convert the request DTO to a Paper entity
+        var paper = new Paper
+        {
+            Name = request.Name,
+            Discontinued = request.Discontinued,
+            Stock = request.Stock,
+            Price = request.Price
+        };
+    
+        // Add the new Paper entity to the database
+        context.Papers.Add(paper);
         context.SaveChanges();
-        return Ok(request);
+
+        // Create a response DTO from the newly created Paper entity
+        var response = new ResponseCreatePaperDTO
+        {
+            Id = paper.Id,
+            Name = paper.Name,
+            Discontinued = paper.Discontinued,
+            Stock = paper.Stock,
+            Price = paper.Price
+        };
+
+        // Return the response DTO
+        return Ok(response);
     }
+
     
     [HttpDelete]
     [Route("{id}")]
-    public ActionResult DeletePaper([FromBody] Paper paper)
+    public ActionResult DeletePaper(int id)
     {
-        context.Remove(paper);
+        var paper = context.Papers.Find(id);
+        if (paper == null)
+        {
+            return NotFound();
+        }
+        context.Papers.Remove(paper);
         context.SaveChanges();
         return Ok();
     }
