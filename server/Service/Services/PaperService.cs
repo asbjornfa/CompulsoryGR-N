@@ -32,15 +32,13 @@ public class PaperService : IPaper
         _CreatePaperValidator.ValidateAndThrow(requestCreatePaperDto);
 
         // Konverterer DTO til Paper model
-
         var paper = requestCreatePaperDto.ToPaper();
-        
+
         // Tilføj Paper til databasen
         _context.Papers.Add(paper);
         await _context.SaveChangesAsync();
 
         // Returner Response DTO
-
         return new ResponseCreatePaperDTO()
         {
             Id = paper.Id,

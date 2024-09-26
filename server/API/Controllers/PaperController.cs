@@ -28,18 +28,26 @@ public class PaperController : ControllerBase
         return Ok(allPapers);
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Paper>> GetPaperById(int id)
+    {
+        var paper = await _paperService.GetPaperById(id);
+
+        return Ok(paper);
+    }
+
     [HttpPost]
     [Route("")]
     public async Task<ActionResult> CreatePaper([FromBody] RequestCreatePaperDTO request)
+    {
 
-        {
-            var createdPaper = await _paperService.CreatePaper(request);
-            return CreatedAtAction(nameof(createdPaper), new { id = createdPaper.Id}, createdPaper);
-        }
+    var response = await _paperService.CreatePaper(request);
+        return Ok(response);
+}
 
-    
 
-    [HttpDelete]
+
+[HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeletePaper(int id)
     {
