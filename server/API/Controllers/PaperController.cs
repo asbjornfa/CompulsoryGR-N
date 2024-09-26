@@ -15,7 +15,7 @@ public class PaperController(MyDbContext context) : ControllerBase{
     [Route("")]
     public ActionResult GetPapers()
     {
-        return Ok(context.Papers.ToList());
+        return Ok(context.Papers.Where(p => p.Discontinued == false).ToList());
     }
 
     [HttpPost]
