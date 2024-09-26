@@ -1,7 +1,7 @@
-
+using DataAccess.Models;
 using Service.DTO.Request;
 using Service.DTO.Response;
-using DataAccess.Models;
+
 
 
 namespace Service.Interfaces;
