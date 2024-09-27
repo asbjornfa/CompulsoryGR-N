@@ -15,8 +15,10 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<IValidator<RequestCreatePaperDTO>, CreatePaperValidator>(); // Tilføj din validator her
+builder.Services.AddTransient<IValidator<RequestCreateCustomerDTO>, CreateCustomerValidator>();
 
 builder.Services.AddScoped<IPaper, PaperService>();
+builder.Services.AddScoped<ICustomer, CustomerService>();
 
 builder.Services.AddOpenApiDocument();
 var app = builder.Build();
