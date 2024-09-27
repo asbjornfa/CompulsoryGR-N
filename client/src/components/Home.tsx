@@ -1,80 +1,64 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAtom } from "jotai";
-import { namePaperAtom, stockPaperAtom, pricePaperAtom } from "../atoms/PaperAtom.tsx";
-import { useInitializeData } from "../useInitializeData.ts";
+import { namePaperAtom, stockPaperAtom, pricePaperAtom, PaperAtom } from "../atoms/PaperAtom.tsx";
 
-const Home = () => {
-    // Using Jotai atoms to manage paper state
+export default function Home() {
     const [paperName, setPaperName] = useAtom(namePaperAtom);
     const [paperStock, setPaperStock] = useAtom(stockPaperAtom);
     const [paperPrice, setPaperPrice] = useAtom(pricePaperAtom);
+    const [papers, setPapers] = useAtom(PaperAtom);
 
-    // Initialize data when the component mounts
-    useInitializeData();
-
-    // Function to handle paper creation
-    const handleCreatePaper = async () => {
-        const createPaperDTO = {
-            name: paperName,
-            stock: paperStock,
-            price: paperPrice,
+    useEffect(() => {
+        const fetchPapers = async () => {
+            const response = await fetch('http://localhost:5000/api/paper');
+            const data = await response.json();
+            setPapers(data);
         };
+
+        fetchPapers();
+    }, [setPapers]);
+
+    const handleCreatePaper = async () => {
+        const createPaperDTO = {name: paperName, stock: paperStock, price: paperPrice};
 
         try {
             const response = await fetch('http://localhost:5000/api/paper', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(createPaperDTO),
             });
 
-            if (!response.ok) {
-                throw new Error("Failed to create paper");
+            if (response.ok) {
+                const newPaper = await response.json();
+                setPapers((prev) => [...prev, newPaper]); // Opdater listen med det nye papir
             }
-
-            const result = await response.json();
-            console.log("Paper created", result);
-            // Optionally, reset the form fields
-            setPaperName('');
-            setPaperStock(0);
-            setPaperPrice(0);
         } catch (error) {
             console.error("Error!", error);
         }
     };
 
     return (
-        <div className="container">
-            <h1 className="title">Create Paper</h1>
-            <div className="form-group">
-                <input
-                    type="text"
-                    placeholder="Paper Name"
-                    value={paperName}
-                    onChange={(e) => setPaperName(e.target.value)}
-                    className="input-field"
-                />
-                <input
-                    type="number"
-                    placeholder="Stock"
-                    value={paperStock}
-                    onChange={(e) => setPaperStock(parseInt(e.target.value) || 0)}
-                    className="input-field"
-                />
-                <input
-                    type="number"
-                    placeholder="Price"
-                    value={paperPrice}
-                    onChange={(e) => setPaperPrice(parseFloat(e.target.value) || 0)}
-                    className="input-field"
-                />
-                <button className="btn" type="button" onClick={handleCreatePaper}>
-                    Create Paper
-                </button>
-            </div>
-        </div>
-    );
-};
+        <div className="create-paper-container">
+            <h2 className="create-paper-title">Create Paper</h2>
 
-export default Home;
+            <div className="input-group">
+                <input type="text" value={paperName} onChange={(e) => setPaperName(e.target.value)}
+                       placeholder="Paper Name" className="input-field"/>
+                <input type="number" value={paperStock} onChange={(e) => setPaperStock(parseInt(e.target.value))}
+                       placeholder="Stock" className="input-field"/>
+                <input type="number" value={paperPrice} onChange={(e) => setPaperPrice(parseFloat(e.target.value))}
+                       placeholder="Price" className="input-field"/>
+            </div>
+            <button onClick={handleCreatePaper} className="create-button">Create Paper</button>
+            <ul className="list-disc pl-5">
+                {papers.map((paper, index) => (
+                    <li key={index} className="mt-2 text-gray-700">
+                        {paper.name} - {paper.stock} in stock -
+                        ${paper.price !== undefined ? paper.price.toFixed(2) : 'N/A'}
+                    </li>
+                ))}
+            </ul>   
+        </div>
+
+    );
+}
