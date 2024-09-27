@@ -28,7 +28,7 @@ public class PaperService : IPaper
 
     public async Task<ResponseCreatePaperDTO> CreatePaper(RequestCreatePaperDTO requestCreatePaperDto)
     {
-        
+
         _CreatePaperValidator.ValidateAndThrow(requestCreatePaperDto);
 
         // Konverterer DTO til Paper model
@@ -48,20 +48,57 @@ public class PaperService : IPaper
             Stock = paper.Stock
         };
     }
-    
 
 
-    public async Task<List<Paper>> GetAllPapers()
+
+    public async Task<List<ResponseCreatePaperDTO>> GetAllPapers()
     {
-        // Henter alle ikke-slettede papers
-        return await _context.Papers.Where(p => !p.Discontinued).ToListAsync();
+        return await _context.Papers.Select(p => new ResponseCreatePaperDTO
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                Stock = p.Stock,
+                Discontinued = p.Discontinued
+            })
+            .ToListAsync();
     }
 
-    public async Task<Paper> GetPaperById(int id)
+
+public async Task<Paper> GetPaperById(int id)
     {
         return await _context.Papers.FindAsync(id);
     }
 
+    public async Task<ResponseCreatePaperDTO> UpdatePaper(int id, RequestCreatePaperDTO request)
+    {
+        var existingPaper = await _context.Papers.FindAsync(id);
+        if (existingPaper == null)
+        {
+            throw new Exception("paper not found");
+        }
+
+        //updater papirets værdier 
+        existingPaper.Name = request.Name;
+        existingPaper.Stock = request.Stock;
+        existingPaper.Price = request.Price;
+        existingPaper.Discontinued = request.Discontinued;
+
+        //ændringer gemmes
+        _context.Papers.Update(existingPaper);
+        await _context.SaveChangesAsync();
+        
+        return new ResponseCreatePaperDTO
+        {
+            Id = existingPaper.Id,
+            Name = existingPaper.Name,
+            Stock = existingPaper.Stock,
+            Price = existingPaper.Price,
+            Discontinued = existingPaper.Discontinued
+        };
+       
+    }
+    
     public async Task DeletePaper(int id)
     {
         var paper = await _context.Papers.FindAsync(id);

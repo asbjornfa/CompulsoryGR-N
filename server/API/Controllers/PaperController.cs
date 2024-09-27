@@ -39,12 +39,21 @@ public class PaperController : ControllerBase
     [HttpPost]
     [Route("")]
     public async Task<ActionResult> CreatePaper([FromBody] RequestCreatePaperDTO request)
-    {
-
-    var response = await _paperService.CreatePaper(request);
-        return Ok(response);
+    { 
+        
+        var response = await _paperService.CreatePaper(request);
+        return CreatedAtAction(nameof(GetPaperById), new { id = response.Id }, response);
+       // return Ok(response);
 }
 
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult >UpdatePaper(int id, [FromBody] RequestCreatePaperDTO request)
+    
+    {
+        var updatePaper = await _paperService.UpdatePaper(id, request);
+        return Ok(updatePaper);
+    }
 
 
 [HttpDelete]

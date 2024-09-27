@@ -10,9 +10,10 @@ public interface IPaper
 {
     Task<ResponseCreatePaperDTO> CreatePaper(RequestCreatePaperDTO requestCreatePaperDto);
     
-    Task<List<Paper>> GetAllPapers();
+    Task<List<ResponseCreatePaperDTO>> GetAllPapers();
     
     Task<Paper> GetPaperById(int id);
+    Task<ResponseCreatePaperDTO> UpdatePaper(int id, RequestCreatePaperDTO requestCreatePaperDto);
     Task DeletePaper(int id);
 
 }
