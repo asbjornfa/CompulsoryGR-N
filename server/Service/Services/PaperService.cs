@@ -107,8 +107,6 @@ public async Task<Paper> GetPaperById(int id)
             _context.Papers.Remove(paper);
             await _context.SaveChangesAsync();
         }
-        {
-            
-        }
     }
+    
 }
