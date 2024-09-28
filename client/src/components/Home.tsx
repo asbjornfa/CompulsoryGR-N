@@ -37,7 +37,43 @@ export default function Home() {
         }
     };
 
+
     return (
+        <div className="home-page">
+            <header className="header">
+                <div className="logo">
+                    <img src="/path-to-logo.png" alt="JA Paper Logo" />
+                    <span className="logo-text">JA Paper</span>
+                </div>
+                <nav className="nav">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                        <li><a href="/about-us">About us</a></li>
+                    </ul>
+                </nav>
+                <div className="search">
+                    <button className="search-button">🔍</button>
+                </div>
+            </header>
+
+            <main className="main-content">
+                <div className="hero-section">
+                    <h1>Welcome to JA Paper</h1>
+                    <p>Welcome to JA Paper – Your reliable partner for business paper supplies. Easily browse, customize, and manage your orders to meet your company's needs.</p>
+                    <button className="shop-now-button">Shop Now</button>
+                    <div className="dots">
+                        <span className="dot active"></span>
+                        <span className="dot"></span>
+                        <span className="dot"></span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    );
+};
+
+    /*return (
         <div className="create-paper-container">
             <h2 className="create-paper-title">Create Paper</h2>
 
@@ -61,4 +97,4 @@ export default function Home() {
         </div>
 
     );
-}
+}*/
