@@ -9,6 +9,93 @@
  * ---------------------------------------------------------------
  */
 
+export interface Customer {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  orders?: Order[];
+}
+
+export interface Order {
+  /** @format int32 */
+  id?: number;
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format double */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+  customer?: Customer | null;
+  orderEntries?: OrderEntry[];
+}
+
+export interface OrderEntry {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  quantity?: number;
+  /** @format int32 */
+  productId?: number | null;
+  /** @format int32 */
+  orderId?: number | null;
+  order?: Order | null;
+  product?: Paper | null;
+}
+
+export interface Paper {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+  orderEntries?: OrderEntry[];
+  properties?: Properties[];
+}
+
+export interface Properties {
+  /** @format int32 */
+  id?: number;
+  propertyName?: string;
+  papers?: Paper[];
+}
+
+export interface RequestCreateCustomerDTO {
+  name?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+}
+
+export interface RequestCreateOrderDTO {
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format double */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+}
+
+export interface RequestCreateOrderEntryDTO {
+  /** @format int32 */
+  quantity?: number;
+  /** @format int32 */
+  productId?: number;
+  /** @format int32 */
+  orderId?: number;
+}
+
 export interface RequestCreatePaperDTO {
   name?: string;
   discontinued?: boolean;
@@ -16,6 +103,10 @@ export interface RequestCreatePaperDTO {
   stock?: number;
   /** @format double */
   price?: number;
+}
+
+export interface RequestCreatePropertyDTO {
+  propertyName?: string;
 }
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
@@ -162,6 +253,187 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Customer
+     * @name CustomerGetCustomers
+     * @request GET:/api/Customer
+     */
+    customerGetCustomers: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Customer`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Customer
+     * @name CustomerCreateCustomer
+     * @request POST:/api/Customer
+     */
+    customerCreateCustomer: (data: RequestCreateCustomerDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Customer`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Customer
+     * @name CustomerGetCustomerById
+     * @request GET:/api/Customer/{id}
+     */
+    customerGetCustomerById: (id: number, params: RequestParams = {}) =>
+      this.request<Customer, any>({
+        path: `/api/Customer/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Customer
+     * @name CustomerUpdateCustomer
+     * @request PUT:/api/Customer/{id}
+     */
+    customerUpdateCustomer: (id: number, data: RequestCreateCustomerDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Customer/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Customer
+     * @name CustomerDeleteCustomer
+     * @request DELETE:/api/Customer/{id}
+     */
+    customerDeleteCustomer: (id: number, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Customer/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderGetOrders
+     * @request GET:/api/Order
+     */
+    orderGetOrders: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Order`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderCreateOrder
+     * @request POST:/api/Order
+     */
+    orderCreateOrder: (data: RequestCreateOrderDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Order`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderGetOrderById
+     * @request GET:/api/Order/{id}
+     */
+    orderGetOrderById: (id: number, params: RequestParams = {}) =>
+      this.request<Order, any>({
+        path: `/api/Order/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderUpdateOrder
+     * @request PUT:/api/Order/{id}
+     */
+    orderUpdateOrder: (id: number, data: RequestCreateOrderDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Order/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OrderEntry
+     * @name OrderEntryGetOrderEntries
+     * @request GET:/api/OrderEntry
+     */
+    orderEntryGetOrderEntries: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/OrderEntry`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OrderEntry
+     * @name OrderEntryCreateOrderEntry
+     * @request POST:/api/OrderEntry
+     */
+    orderEntryCreateOrderEntry: (data: RequestCreateOrderEntryDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/OrderEntry`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags OrderEntry
+     * @name OrderEntryGetOrderEntryById
+     * @request GET:/api/OrderEntry/{id}
+     */
+    orderEntryGetOrderEntryById: (id: number, params: RequestParams = {}) =>
+      this.request<OrderEntry, any>({
+        path: `/api/OrderEntry/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Paper
      * @name PaperGetPapers
      * @request GET:/api/Paper
@@ -193,12 +465,118 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Paper
+     * @name PaperGetPaperById
+     * @request GET:/api/Paper/{id}
+     */
+    paperGetPaperById: (id: number, params: RequestParams = {}) =>
+      this.request<Paper, any>({
+        path: `/api/Paper/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
+     * @name PaperUpdatePaper
+     * @request PUT:/api/Paper/{id}
+     */
+    paperUpdatePaper: (id: number, data: RequestCreatePaperDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Paper/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Paper
      * @name PaperDeletePaper
      * @request DELETE:/api/Paper/{id}
      */
     paperDeletePaper: (id: number, params: RequestParams = {}) =>
       this.request<File, any>({
         path: `/api/Paper/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Properties
+     * @name PropertiesGetProperties
+     * @request GET:/api/Properties
+     */
+    propertiesGetProperties: (params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Properties`,
+        method: "GET",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Properties
+     * @name PropertiesCreateProperty
+     * @request POST:/api/Properties
+     */
+    propertiesCreateProperty: (data: RequestCreatePropertyDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Properties`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Properties
+     * @name PropertiesGetPropertiesById
+     * @request GET:/api/Properties/{id}
+     */
+    propertiesGetPropertiesById: (id: number, params: RequestParams = {}) =>
+      this.request<Properties, any>({
+        path: `/api/Properties/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Properties
+     * @name PropertiesUpdateProperty
+     * @request PUT:/api/Properties/{id}
+     */
+    propertiesUpdateProperty: (id: number, data: RequestCreatePropertyDTO, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Properties/${id}`,
+        method: "PUT",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Properties
+     * @name PropertiesDeleteProperty
+     * @request DELETE:/api/Properties/{id}
+     */
+    propertiesDeleteProperty: (id: number, params: RequestParams = {}) =>
+      this.request<File, any>({
+        path: `/api/Properties/${id}`,
         method: "DELETE",
         ...params,
       }),
