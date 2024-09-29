@@ -18,11 +18,13 @@ builder.Services.AddTransient<IValidator<RequestCreatePaperDTO>, CreatePaperVali
 builder.Services.AddTransient<IValidator<RequestCreateCustomerDTO>, CreateCustomerValidator>();
 builder.Services.AddTransient<IValidator<RequestCreateOrderDTO>, CreateOrderValidator>();
 builder.Services.AddTransient<IValidator<RequestCreatePropertyDTO>, CreatePropertyValidator>();
+builder.Services.AddTransient<IValidator<RequestCreateOrderEntryDTO>, CreateOrderEntryValidator>();
 
 builder.Services.AddScoped<IPaper, PaperService>();
 builder.Services.AddScoped<ICustomer, CustomerService>();
 builder.Services.AddScoped<IOrder, OrderService>();
 builder.Services.AddScoped<IProperties, PropertiesService>();
+builder.Services.AddScoped<IOrderEntry, OrderEntryService>();
 
 builder.Services.AddOpenApiDocument();
 var app = builder.Build();

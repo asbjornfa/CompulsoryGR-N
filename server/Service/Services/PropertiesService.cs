@@ -13,18 +13,18 @@ public class PropertiesService : IProperties
 {
 
     private readonly MyDbContext _context;
-    private readonly IValidator<RequestCreatePropertyDTO> _CreatePropertyValidator;
+    private readonly IValidator<RequestCreatePropertyDTO> _createPropertyValidator;
 
     public PropertiesService(MyDbContext context, 
         IValidator<RequestCreatePropertyDTO> CreatePropertyValidator)
     {
         _context = context;
-        _CreatePropertyValidator = CreatePropertyValidator;
+        _createPropertyValidator = CreatePropertyValidator;
     }
     
     public async Task<ResponsePropertyDTO> CreateProperty(RequestCreatePropertyDTO requestCreatePropertyDto)
     {
-        _CreatePropertyValidator.ValidateAndThrow(requestCreatePropertyDto);
+        _createPropertyValidator.ValidateAndThrow(requestCreatePropertyDto);
 
         var property = requestCreatePropertyDto.ToProperty();
         
@@ -78,7 +78,7 @@ public class PropertiesService : IProperties
     public async Task DeleteProperty(int id)
     {
         var properties = await _context.Properties.FindAsync(id);
-        if (_context != null)
+        if (properties != null)
         {
             _context.Properties.Remove(properties);
             await _context.SaveChangesAsync();
