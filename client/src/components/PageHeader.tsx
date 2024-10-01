@@ -16,7 +16,7 @@ function PageHeader() {
                 </ul>
             </nav>
             <div className="search">
-                <button className="search-button">🔍</button>
+                <button className="create-button" type="button">+</button>
             </div>
         </div>
     );
