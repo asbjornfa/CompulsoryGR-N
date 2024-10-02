@@ -5,6 +5,7 @@ import {Api, RequestCreatePaperDTO} from "../../Api.ts";
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
 import PaperCard from "../Paper/PaperCard.tsx";
+import {searchAtom, minPriceAtom, maxPriceAtom, sortByAtom, sortOrderAtom} from "../../atoms/PaperAtom.tsx";
 
 
 const api = new Api();
@@ -13,11 +14,20 @@ const api = new Api();
 export default function Shop() {
 
     const [papers, setPapers] = useAtom(PaperAtom);
+    const [search, setSearch] = useAtom(searchAtom);
+    const [minPrice, setMinPrice] = useAtom(minPriceAtom);
+    const [maxPrice, setMaxPrice] = useAtom(maxPriceAtom);
+    const [sortBy, setSortBy] = useAtom(sortByAtom);
+    const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
 
     useEffect(() => {
         const fetchPapers = async () => {
             try {
-                const response = await api.api.paperGetPapers(); // Fetch papers using the API
+                const response = await api.api.paperGetPapers({
+                    search,
+                    minPrice,
+                    
+                }); // Fetch papers using the API
                 const data: RequestCreatePaperDTO[] = await response.data as unknown as RequestCreatePaperDTO[]; // Extract the data array
                 setPapers(data); // Set the papers in the atom
             } catch (error) {
