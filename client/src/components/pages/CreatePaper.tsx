@@ -1,6 +1,8 @@
 import React from 'react';
 
-const CreatePaperForm: React.FC = () => {
+const CreatePaper: React.FC = () => {
+    
+    
     return (
         <div className="flex justify-center items-center h-screen bg-black bg-opacity-50">
             <div className="flex gap-5">
@@ -57,4 +59,4 @@ const CreatePaperForm: React.FC = () => {
     );
 };
 
-export default CreatePaperForm;
+export default CreatePaper;
