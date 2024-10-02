@@ -7,6 +7,7 @@ import {ThemeAtom} from "../atoms/ThemeAtom.tsx";
 import Home from "./pages/Home.tsx";
 import Shop from "./pages/Shop.tsx";
 import PageHeader from "./PageHeader.tsx";
+import CreatePaper from './pages/CreatePaper';
 
 const App = () => {
 
@@ -15,8 +16,9 @@ const App = () => {
         <Toaster position={"top-center"}/>
         <PageHeader/>
         <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Route path="/Home" element={<Home/>}/>
             <Route path="/Shop" element={<Shop/>}/>
+            <Route path="/createPaper" element={<CreatePaper/>} />
         </Routes>
     </>)
 }
