@@ -1,7 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 
 function PageHeader() {
+    const navigate = useNavigate(); // Brug useNavigate
+
+    // Funktion der håndterer navigation
+    const handleCreateClick = () => {
+        navigate("/createPaper"); // Naviger til "/createPaper"
+    };
+
     return (
         <div className="header">
             <div className="logo">
@@ -16,7 +25,7 @@ function PageHeader() {
                 </ul>
             </nav>
             <div className="search">
-                <button className="create-button" type="button">+</button>
+                <button className="create-button"  type="button" onClick={handleCreateClick}>+</button>
             </div>
         </div>
     );
