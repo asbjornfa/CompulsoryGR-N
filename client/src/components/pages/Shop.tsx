@@ -42,22 +42,23 @@ export default function Shop() {
     return (
         <div className="shop-container">
             <Sidebar setSortOrder={setSortOrder}  />
+            <div className="overlay-wrapper">
             <div className="product-grid">
                 {sortedPapers.map((paper, index) => (
                     <PaperCard key={index} paper={paper} />
                 ))}
             </div>
         </div>
+    </div>
     );
 }
 
 
 function Sidebar({ setSortOrder }) {
     return (
-        <div className="sidebar">
+        <div className="sidebar" style={{ marginTop: "270px"}}> {/* Add margin-top here */}
             <h3>Filter by</h3>
             <div className="filter-options">
-                {/* Add your filters here */}
                 <div className="filter-option">
                     <label htmlFor="price-range">Price</label>
                     <button onClick={() => setSortOrder("priceDesc")}>Price: High to Low</button>
