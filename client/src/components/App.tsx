@@ -16,7 +16,7 @@ const App = () => {
         <Toaster position={"top-center"}/>
         <PageHeader/>
         <Routes>
-            <Route path="/Home" element={<Home/>}/>
+            <Route path="/" element={<Home/>}/>
             <Route path="/Shop" element={<Shop/>}/>
             <Route path="/createPaper" element={<CreatePaper/>} />
         </Routes>
