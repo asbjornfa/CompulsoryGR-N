@@ -42,14 +42,18 @@ public class PaperController : ControllerBase
     [HttpPost]
     [Route("")]
     public async Task<ActionResult> CreatePaper([FromBody] RequestCreatePaperDTO request)
-    { 
+    {
+
+        if (request.PropertyIds == null || !request.PropertyIds.Any())
+        {
+            return BadRequest("No properties provided");
+        }
         
         var response = await _paperService.CreatePaper(request);
         return CreatedAtAction(nameof(GetPaperById), new { id = response.Id }, response);
        // return Ok(response);
-}
-
-
+    }
+    
     [HttpPut("{id}")]
     public async Task<ActionResult >UpdatePaper(int id, [FromBody] RequestCreatePaperDTO request)
     

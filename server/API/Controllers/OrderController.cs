@@ -19,6 +19,7 @@ public class OrderController : ControllerBase
     [HttpGet]
     [Route("")]
     public async Task<IActionResult> GetOrders()
+    
     {
         var allOrders = await _orderSevrice.GetAllOrders();
         return Ok(allOrders);

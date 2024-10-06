@@ -30,9 +30,13 @@ public class PaperService : IPaper
     {
 
         _CreatePaperValidator.ValidateAndThrow(requestCreatePaperDto);
+        
+        var selectedProperties = await _context.Properties
+            .Where(p => requestCreatePaperDto.PropertyIds.Contains(p.Id))
+            .ToListAsync();
 
         // Konverterer DTO til Paper model
-        var paper = requestCreatePaperDto.ToPaper();
+        var paper = requestCreatePaperDto.ToPaper(selectedProperties);
 
         // Tilføj Paper til databasen
         _context.Papers.Add(paper);
@@ -72,19 +76,28 @@ public async Task<Paper> GetPaperById(int id)
 
     public async Task<ResponseCreatePaperDTO> UpdatePaper(int id, RequestCreatePaperDTO request)
     {
-        var existingPaper = await _context.Papers.FindAsync(id);
+        var existingPaper = await _context.Papers
+            .Include(p => p.Properties)
+            .FirstOrDefaultAsync(p => p.Id == id);
+        
         if (existingPaper == null)
         {
             throw new Exception("paper not found");
         }
 
-        //updater papirets værdier 
+        //Opdater papirets værdier 
         existingPaper.Name = request.Name;
         existingPaper.Stock = request.Stock;
         existingPaper.Price = request.Price;
         existingPaper.Discontinued = request.Discontinued;
 
         //ændringer gemmes
+        var selectedProperties = await _context.Properties
+            .Where(p => request.PropertyIds.Contains(p.Id))
+            .ToListAsync();
+        
+        existingPaper.Properties = selectedProperties;
+        
         _context.Papers.Update(existingPaper);
         await _context.SaveChangesAsync();
         

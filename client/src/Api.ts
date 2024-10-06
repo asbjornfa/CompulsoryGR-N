@@ -103,6 +103,7 @@ export interface RequestCreatePaperDTO {
   stock?: number;
   /** @format double */
   price?: number;
+  propertyIds?: number[] | null;
 }
 
 export interface RequestCreatePropertyDTO {
