@@ -86,7 +86,11 @@ const CreatePaper = () => {
                             className="w-full p-2 mb-6 border rounded-md"
                         />
 
-                        <select onChange={function (e) {
+                        <label htmlFor="properties" className="block mb-2 text-lg">
+                            Properties
+                        </label>
+
+                        <select className="w-full p-2 mb-6 border rounded-md" onChange={function (e) {
                             console.log(e)
                             return setSelectedProp(Number(e.target.value));
                         }} >
