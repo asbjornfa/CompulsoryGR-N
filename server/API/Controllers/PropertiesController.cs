@@ -21,7 +21,7 @@ public class PropertiesController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    public async Task<ActionResult> GetProperties()
+    public async Task<ActionResult<List<Properties>>> GetProperties()
     {
         var allProperties = await _propertiesService.GetAllProperties();
         return Ok(allProperties);

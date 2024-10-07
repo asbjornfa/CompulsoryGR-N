@@ -2,11 +2,13 @@ import {useAtom} from "jotai";
 import {PaperAtom} from "./atoms/PaperAtom.tsx";
 import {useEffect} from "react";
 import {http} from "./http.ts";
+import {PropertiesAtom} from "./atoms/PropertiesAtom.tsx";
 
 
 export function useInitializeData() {
     
     const [, setPaper] = useAtom(PaperAtom);
+    const [, setProperties] = useAtom(PropertiesAtom)
 
 
     useEffect(() => {
@@ -23,5 +25,8 @@ export function useInitializeData() {
             .catch((e) => {
                 console.error("Error fetching papers:", e);
             });
+        http.api.propertiesGetProperties().then(result => {
+            setProperties(result.data)
+        })
     }, []);
 }

@@ -44,10 +44,7 @@ public class PaperController : ControllerBase
     public async Task<ActionResult> CreatePaper([FromBody] RequestCreatePaperDTO request)
     {
 
-        if (request.PropertyIds == null || !request.PropertyIds.Any())
-        {
-            return BadRequest("No properties provided");
-        }
+      
         
         var response = await _paperService.CreatePaper(request);
         return CreatedAtAction(nameof(GetPaperById), new { id = response.Id }, response);
