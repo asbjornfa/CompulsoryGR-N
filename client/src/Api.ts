@@ -75,6 +75,20 @@ export interface RequestCreateCustomerDTO {
   email?: string;
 }
 
+export interface ResponseCreateOrderDTO {
+  /** @format int32 */
+  id?: number;
+  /** @format date-time */
+  orderDate?: string;
+  /** @format date */
+  deliveryDate?: string | null;
+  status?: string;
+  /** @format double */
+  totalAmount?: number;
+  /** @format int32 */
+  customerId?: number | null;
+}
+
 export interface RequestCreateOrderDTO {
   /** @format date-time */
   orderDate?: string;
@@ -345,9 +359,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Order
      */
     orderGetOrders: (params: RequestParams = {}) =>
-      this.request<File, any>({
+      this.request<ResponseCreateOrderDTO[], any>({
         path: `/api/Order`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 

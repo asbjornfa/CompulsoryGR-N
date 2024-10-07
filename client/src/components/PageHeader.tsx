@@ -22,6 +22,7 @@ function PageHeader() {
                     <li><a href="/">Home</a></li>
                     <li><a href="/Shop">Shop</a></li>
                     <li><a href="/about-us">About us</a></li>
+                    <li><a href="/OrderHistory">Order History</a></li>
                 </ul>
             </nav>
             <div className="search" style={{display: 'flex', alignItems: 'center'}}>
