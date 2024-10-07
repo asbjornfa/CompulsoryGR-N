@@ -527,9 +527,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Properties
      */
     propertiesGetProperties: (params: RequestParams = {}) =>
-      this.request<File, any>({
+      this.request<Properties[], any>({
         path: `/api/Properties`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 

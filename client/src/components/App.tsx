@@ -6,7 +6,11 @@ import Home from "./pages/Home.tsx";
 import Shop from "./pages/Shop.tsx";
 import CreatePaper from "./pages/CreatePaper.tsx";
 import Cart from "./pages/Cart";
+import {useInitializeData} from "../useInitializeData.ts";
+
 const App = () => {
+
+    useInitializeData();
     return (
         <>
             <Toaster position={"top-center"} />
