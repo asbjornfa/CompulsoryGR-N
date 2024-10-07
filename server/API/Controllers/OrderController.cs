@@ -1,6 +1,7 @@
 using DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTO.Request;
+using Service.DTO.Response;
 using Service.Interfaces;
 
 namespace API.Controllers;
@@ -18,7 +19,7 @@ public class OrderController : ControllerBase
     
     [HttpGet]
     [Route("")]
-    public async Task<IActionResult> GetOrders()
+    public async Task<ActionResult<List<ResponseCreateOrderDTO>>> GetOrders()
     
     {
         var allOrders = await _orderSevrice.GetAllOrders();
