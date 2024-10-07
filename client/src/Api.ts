@@ -96,6 +96,17 @@ export interface RequestCreateOrderEntryDTO {
   orderId?: number;
 }
 
+export interface ResponseCreatePaperDTO {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  discontinued?: boolean;
+  /** @format int32 */
+  stock?: number;
+  /** @format double */
+  price?: number;
+}
+
 export interface RequestCreatePaperDTO {
   name?: string;
   discontinued?: boolean;
@@ -440,9 +451,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/Paper
      */
     paperGetPapers: (params: RequestParams = {}) =>
-      this.request<File, any>({
+      this.request<ResponseCreatePaperDTO[], any>({
         path: `/api/Paper`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 

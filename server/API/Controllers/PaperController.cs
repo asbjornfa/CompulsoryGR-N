@@ -21,7 +21,7 @@ public class PaperController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    public async Task<ActionResult> GetPapers()
+    public async Task<ActionResult<List<ResponseCreatePaperDTO>>> GetPapers()
     
     {
         //Get all the papers

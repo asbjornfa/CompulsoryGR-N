@@ -19,8 +19,8 @@ code {
 
 
 .create-button {
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Grøn baggrund */
+    padding: 5px 10px;
+    background-color: #006300; /* Grøn baggrund */
     color: white; /* Hvid tekst */
     border: none;
     border-radius: 5px;
@@ -156,7 +156,7 @@ code {
 
 .overlay-wrapper{
     background-color: #cfcfcf;
-    padding: 141px;
+    padding: 20px;
     margin-right: 10px;
     height: 100%;
     margin-top: 270px;
@@ -174,9 +174,9 @@ code {
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Adjust column count as needed */
-    gap: 20px;
-    padding: 10px;
-    margin-top: -199px;
+    gap: 40px;
+    padding: 40px;
+    margin-top: -100px;
     z-index: 1;
     position: relative;
 }
@@ -184,14 +184,13 @@ code {
 /* Product card styles */
 .product-card {
     background-color: #fff;
-    padding: 20px;
+    padding: 35px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    
 }
 
-.product-card img {
+    .product-card img {
     width: 100%;
     height: auto;
     object-fit: contain;
@@ -258,6 +257,7 @@ code {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 0;
    background-color: rgb(30, 30, 30); /* Mørk overlay med 60% gennemsigtighed */
     
   
@@ -276,4 +276,73 @@ code {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.cart-button {
+    margin-left: 10px; /* Juster afstand mellem knapperne */
+}
 
+.cart-button svg {
+    width: 30px; /* Juster bredden */
+    height: 28px; /* Juster højden */
+    fill: #0000; /* Juster farven, hvis nødvendigt */
+}
+
+
+.cart-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.cart-items {
+    width: 70%;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.item-details {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-control button {
+    background: #ccc;
+    border: none;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.remove-item {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cart-summary {
+    width: 25%;
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 8px;
+}
+
+.checkout-button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
