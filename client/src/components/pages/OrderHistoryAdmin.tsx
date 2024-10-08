@@ -8,6 +8,7 @@ const OrderHistoryAdmin = () => {
     const [orders, setOrders] = useAtom(OrderAtom); // Hent ordrer fra Jotai state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [customerNames, setCustomerNames] = useState<{ [key: number]: string }>({});
     const api = new Api();
 
     useEffect(() => {
@@ -16,6 +17,25 @@ const OrderHistoryAdmin = () => {
                 const response = await api.api.orderGetOrders();
                 const orders = response.data as Order[];
                 setOrders(orders);
+
+                // Fetch customer names in parallel
+                const customerPromises = orders.map(async (order: Order) => {
+                    const customerId = order.customerId as number; // Type assertion
+                    const customerResponse = await api.api.customerGetCustomerById(customerId);
+                    return { customerId, name: customerResponse.data.name };
+                });
+
+                // Wait for all customer names to be fetched
+                const customerData = await Promise.all(customerPromises);
+
+                // Create a map of customerId -> customerName
+                const customerNameMap: { [key: number]: string } = {};
+                customerData.forEach(({ customerId, name }) => {
+                    if (name != null) {
+                        customerNameMap[customerId] = name;
+                    }
+                });
+                setCustomerNames(customerNameMap);
             } catch (err) {
                 setError('Fejl ved hentning af ordrer.');
             } finally {
@@ -58,7 +78,9 @@ const OrderHistoryAdmin = () => {
                             </td>
                             <td className="px-4 py-2 border">{order.status}</td>
                             <td className="px-4 py-2 border">{order.totalAmount}</td>
-                            <td className="px-4 py-2 border">{order.customerId}</td>
+                            <td className="px-4 py-2 border">
+                                {customerNames[order.customerId ?? 0]}
+                            </td>
                         </tr>
                     ))}
                     </tbody>
