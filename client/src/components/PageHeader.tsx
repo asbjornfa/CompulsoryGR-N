@@ -1,20 +1,27 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-
+import { useAtom } from 'jotai';
+import { cartAtom } from '../../src/atoms/CartAtom'; // Importer cartAtom
 
 function PageHeader() {
-    const navigate = useNavigate(); // Brug useNavigate
+    const navigate = useNavigate();
+    const [cart] = useAtom(cartAtom);
 
     // Funktion der håndterer navigation
     const handleCreateClick = () => {
-        navigate("/createPaper"); // Naviger til "/createPaper"
+        navigate("/createPaper");
     };
+
+    // Beregn det samlede antal varer i kurven
+    // const totalItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
     return (
         <div className="header">
             <div className="logo">
-                <img src="/path-to-logo.png" alt="JA Paper Logo"/>
+
+                <img src="/src/assets/logo.png" alt="JA Paper Logo"   style={{ width: '70px', height: 'auto',}}
+                />
                 <span className="logo-text">JA Paper</span>
             </div>
             <nav className="nav">
@@ -25,11 +32,13 @@ function PageHeader() {
                     <li><a href="/OrderHistory">Order History</a></li>
                 </ul>
             </nav>
-            <div className="search" style={{display: 'flex', alignItems: 'center'}}>
-                <Link to="/cart" className="cart-button" style={{marginRight: '15px'}}>
+            <div className="search" style={{ display: 'flex', alignItems: 'center' }}>
+                <Link to="/cart" className="cart-button" style={{ marginRight: '15px', position: 'relative' }}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                     </svg>
+
+
                 </Link>
                 <button className="create-button" type="button" onClick={handleCreateClick}>+</button>
             </div>
