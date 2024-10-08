@@ -63,8 +63,6 @@ function Sidebar({ setSortOrder }) {
                     <label htmlFor="price-range">Price</label>
                     <button onClick={() => setSortOrder("priceDesc")}>Price: High to Low</button>
                     <button onClick={() => setSortOrder("priceAsc")}>Price: Low to High</button>
-                    <button onClick={() => setSortOrder("nameAsc")}>Name: A to Z</button>
-                    <button onClick={() => setSortOrder("nameDesc")}>Name: Z to A</button>
                 </div>
             </div>
         </div>
