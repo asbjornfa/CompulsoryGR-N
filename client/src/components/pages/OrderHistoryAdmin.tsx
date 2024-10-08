@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { OrderAtom} from "../../atoms/OrderAtom.tsx";
-import {Api, Order} from '../../Api.ts';
+import {Api, Order, RequestCreateOrderDTO} from '../../Api.ts';
 import { ResponseCreateOrderDTO } from '../../Api.ts'; // Dit DTO-interface
 
 const OrderHistoryAdmin = () => {
@@ -46,6 +46,24 @@ const OrderHistoryAdmin = () => {
         fetchOrders();
     }, [setOrders]);
 
+    const handleStatusChange = async (orderId: number | undefined, newStatus: string) => {
+        try {
+            const updateData = {
+                status: newStatus
+            };
+            await api.api.orderUpdateOrder(orderId, updateData);
+
+            setOrders(prevOrders =>
+                prevOrders.map(order =>
+                    order.id === orderId ? { ...order, status: newStatus } : order
+                )
+            );
+            console.log(`Order ${orderId} updated to status: ${newStatus}`);
+        } catch (err) {
+            console.error('Fejl ved opdatering af status:', err);
+        }
+    };
+
     if (loading) return <p>Indlæser ordrer...</p>;
     if (error) return <p>{error}</p>;
 
@@ -76,16 +94,28 @@ const OrderHistoryAdmin = () => {
                             <td className="px-4 py-2 border">
                                 {new Date(order.deliveryDate ?? '').toLocaleDateString()}
                             </td>
-                            <td className="px-4 py-2 border">{order.status}</td>
-                            <td className="px-4 py-2 border">{order.totalAmount}</td>
                             <td className="px-4 py-2 border">
-                                {customerNames[order.customerId ?? 0]}
+                                <select
+                                    value={order.status}
+                                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                    className="border rounded p-2 w-40"
+                                >
+                                    <option value="Pending">Pending</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
                             </td>
+                                <td className="px-4 py-2 border">{order.totalAmount}</td>
+                                <td className="px-4 py-2 border">
+                                    {customerNames[order.customerId ?? 0]}
+                                </td>
                         </tr>
-                    ))}
+                        ))}
                     </tbody>
                 </table>
-            )}
+                )}
         </div>
     );
 };

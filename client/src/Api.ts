@@ -404,7 +404,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OrderUpdateOrder
      * @request PUT:/api/Order/{id}
      */
-    orderUpdateOrder: (id: number, data: RequestCreateOrderDTO, params: RequestParams = {}) =>
+    orderUpdateOrder: (id: number | undefined, data: RequestCreateOrderDTO, params: RequestParams = {}) =>
       this.request<File, any>({
         path: `/api/Order/${id}`,
         method: "PUT",
