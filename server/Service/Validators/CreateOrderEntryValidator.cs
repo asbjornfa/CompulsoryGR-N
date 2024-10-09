@@ -9,7 +9,7 @@ public class CreateOrderEntryValidator : AbstractValidator<RequestCreateOrderEnt
     {
         RuleFor(o => o.Quantity).GreaterThan(0).WithMessage("Quantity must be greater than zero");
         RuleFor(o => o.ProductId).NotEmpty().WithMessage("ProductId cannot be empty");
-        RuleFor(o => o.OrderId).NotEmpty().WithMessage("OrderId cannot be empty");
+        // RuleFor(o => o.OrderId).NotEmpty().WithMessage("OrderId cannot be empty");
     }
 }
     

@@ -90,6 +90,7 @@ export interface ResponseCreateOrderDTO {
 }
 
 export interface RequestCreateOrderDTO {
+  dtos?: RequestCreateOrderEntryDTO[];
   /** @format date-time */
   orderDate?: string;
   /** @format date */
@@ -106,8 +107,6 @@ export interface RequestCreateOrderEntryDTO {
   quantity?: number;
   /** @format int32 */
   productId?: number;
-  /** @format int32 */
-  orderId?: number;
 }
 
 export interface ResponseCreatePaperDTO {
@@ -404,7 +403,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @name OrderUpdateOrder
      * @request PUT:/api/Order/{id}
      */
-    orderUpdateOrder: (id: number | undefined, data: RequestCreateOrderDTO, params: RequestParams = {}) =>
+    orderUpdateOrder: (id: number, data: RequestCreateOrderDTO, params: RequestParams = {}) =>
       this.request<File, any>({
         path: `/api/Order/${id}`,
         method: "PUT",

@@ -1,4 +1,4 @@
 import {atom} from "jotai/index";
-import {Order, RequestCreateOrderDTO} from "../Api.ts";
+import {ResponseCreateOrderDTO} from "../Api.ts";
 
-export const OrderAtom = atom<Order[]>([]);
+export const OrderAtom = atom<ResponseCreateOrderDTO[]>([]);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai';
 import { cartAtom } from '../../atoms/CartAtom.tsx';
+import {http} from '../../http.ts'
 
 function Cart() {
     const [cart] = useAtom(cartAtom); // get the cart state
@@ -18,6 +19,12 @@ function Cart() {
                     </div>
                 ))
             )}
+            <button onClick={e => {
+                http.api.orderCreateOrder(cart).then(result => {
+                    //Response
+                })
+            }}>Send</button>
+            
         </div>
     );
 }
