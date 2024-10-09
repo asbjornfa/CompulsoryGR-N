@@ -25,23 +25,21 @@ function PaperCard({ paper }: ProductCardProps) {
         const newItem: CartItem = {
             product_id: paper.id || 0, // Bruger paper.id, men sætter en default værdi
             quantity: count,
-            count
         };
 
         // Opdaterer cart
         setCart(prev => {
-            const existingItemIndex = prev.findIndex(item => item.product_id === newItem.product_id);
+            const existingItemIndex = prev.dtos.findIndex(item => item.product_id === newItem.product_id);
 
             if (existingItemIndex !== -1) {
                 // Hvis varen allerede findes, opdaterer vi den
-                const updatedCart = [...prev];
+                const updatedCart = [...prev.dtos];
                 updatedCart[existingItemIndex].quantity += count; // Opdaterer mængden
-                updatedCart[existingItemIndex].count = count; // Opdaterer count
-                return updatedCart;
+                return { dtos: updatedCart }; // Retur til det korrekte format
             }
 
             // Hvis varen ikke findes, tilføjer vi den
-            return [...prev, newItem];
+            return { dtos: [...prev.dtos, newItem] }; // Retur til det korrekte format
         });
 
         setCount(1); // Resetter tælleren til 1

@@ -1,14 +1,12 @@
 import { atom } from 'jotai';
-import {RequestCreateOrderDTO} from '../Api.ts'
+import { RequestCreateOrderDTO } from '../Api.ts';
 
-    export const cartAtom = atom<RequestCreateOrderDTO>({
-        
-    });
+export const cartAtom = atom<{ dtos: CartItem[] }>({
+    dtos: [] // Initialiserer som en tom array
+});
 
-    export interface CartItem {
-        product_id: number;
-        quantity: number;
-        count: number;
-    }
-
-    
+// Interface for CartItem
+export interface CartItem {
+    product_id: number;
+    quantity: number;
+}

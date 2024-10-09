@@ -10,66 +10,62 @@ namespace Service.Services;
 
 public class OrderService : IOrder
 {
-    private readonly MyDbContext _context;
-    private readonly IValidator<RequestCreateOrderDTO> _createOrderValidator;
     
-    public OrderService(MyDbContext context, IValidator<RequestCreateOrderDTO> CreateOrderValidator)
-    {
-        _context = context;
-        _createOrderValidator = CreateOrderValidator;
-    }    
+        private readonly MyDbContext _context;
+        private readonly IValidator<RequestCreateOrderDTO> _createOrderValidator;
 
-    
-    public async Task<Order> CreateOrder(RequestCreateOrderDTO requestCreateOrderDto)
-    {
-        // Validate request
-        _createOrderValidator.ValidateAndThrow(requestCreateOrderDto);
-
-        var entries = requestCreateOrderDto.Dtos.Select(dto => new OrderEntry()
+        public OrderService(MyDbContext context, IValidator<RequestCreateOrderDTO> createOrderValidator)
         {
-            ProductId = dto.ProductId,
-            Quantity = dto.Quantity
-        }).ToList();
-        
+            _context = context;
+            _createOrderValidator = createOrderValidator;
+        }
+
+        public async Task<Order> CreateOrder(RequestCreateOrderDTO requestCreateOrderDto)
+        {
+            // Validate request
+            _createOrderValidator.ValidateAndThrow(requestCreateOrderDto);
+
+            // Create order entries
+            var entries = requestCreateOrderDto.Dtos.Select(dto => new OrderEntry()
+            {
+                ProductId = dto.ProductId,
+                Quantity = dto.Quantity
+            }).ToList();
+
             // Create a new order
             var order = requestCreateOrderDto.ToOrder(entries);
-            order.CustomerId = 1; // Set customer ID
+            order.CustomerId = requestCreateOrderDto.CustomerId ?? 1; // Set customer ID
 
-            // double totalOrderAmount = 0;
-            //
-            // foreach (var orderEntry in order.OrderEntries)
-            // {
-            //     var paper = await _context.Papers.FindAsync(orderEntry.ProductId);
-            //     if (paper == null)
-            //     {
-            //         throw new Exception("orderEntry.ProductId");
-            //     }
-            //
-            //     if (paper.Stock < orderEntry.Quantity)
-            //     {
-            //         throw new Exception("paper.Id, paper.Stock, orderEntry.Quantity");
-            //     }
-            //
-            //     totalOrderAmount += paper.Price * orderEntry.Quantity;
-            //     paper.Stock -= orderEntry.Quantity;
-            //     _context.Papers.Update(paper);
-            // }
+            // Update paper stock and calculate total order amount
+            double totalOrderAmount = 0;
 
-            //order.TotalAmount = totalOrderAmount;
+            foreach (var orderEntry in order.OrderEntries)
+            {
+                var paper = await _context.Papers.FindAsync(orderEntry.ProductId);
+                if (paper == null)
+                {
+                    throw new Exception($"Product with ID {orderEntry.ProductId} not found.");
+                }
 
-            // Auto-generate IDs
+                if (paper.Stock < orderEntry.Quantity)
+                {
+                    throw new Exception($"Insufficient stock for product ID {paper.Id}. Available: {paper.Stock}, Requested: {orderEntry.Quantity}.");
+                }
+
+                totalOrderAmount += paper.Price * orderEntry.Quantity;
+                paper.Stock -= orderEntry.Quantity;
+                _context.Papers.Update(paper);
+            }
+
+            order.TotalAmount = totalOrderAmount;
+
+            // Add order to the context
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            // Commit transaction
-            // await transaction.CommitAsync();
-
-            order.OrderEntries = null;
+            order.OrderEntries = null; // Hide order entries in the response
             return order;
-
-    }
-
-
+        }
 
 
     public async Task<List<ResponseCreateOrderDTO>> GetAllOrders()
