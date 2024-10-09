@@ -147,7 +147,8 @@ code {
 
 /* Sidebar styles */
 .sidebar {
-    width: 20%;
+    width: 30%;
+    height: 100%;
     padding: 20px; /* Increase top and bottom padding */
     margin-left: 5px;
     background-color: #cfcfcf;
@@ -158,6 +159,7 @@ code {
     background-color: #cfcfcf;
     padding: 20px;
     margin-right: 10px;
+    width: 60%;
     height: 100%;
     margin-top: 270px;
 }
@@ -346,3 +348,5 @@ code {
     border-radius: 5px;
     cursor: pointer;
 }
+
+

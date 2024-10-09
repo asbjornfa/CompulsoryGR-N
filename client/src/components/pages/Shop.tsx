@@ -1,9 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useAtom} from "jotai";
 import {namePaperAtom, PaperAtom, SortOrderAtom} from "../../atoms/PaperAtom.tsx";
 import {Api, RequestCreatePaperDTO} from "../../Api.ts";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 import PaperCard from "../Paper/PaperCard.tsx";
 
 
@@ -14,6 +12,7 @@ export default function Shop() {
 
     const [papers, setPapers] = useAtom(PaperAtom);
     const [sortOrder, setSortOrder] = useAtom(SortOrderAtom);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         const fetchPapers = async () => {
@@ -29,7 +28,11 @@ export default function Shop() {
         fetchPapers(); // Call the fetch function on mount
     }, [setPapers]);
 
-    const sortedPapers = papers.sort((a, b) => {
+    const filteredPapers = papers.filter(paper =>
+        paper.name?.toLowerCase().includes(searchQuery.toLowerCase()) // Check if the title matches the search query
+    );
+
+    const sortedPapers = filteredPapers.sort((a, b) => {
         switch (sortOrder) {
             case 'priceAsc':
                 return (a.price || 0) - (b.price || 0);
@@ -41,22 +44,38 @@ export default function Shop() {
     });
     return (
         <div className="shop-container">
-            <Sidebar setSortOrder={setSortOrder}  />
+            <Sidebar
+                setSortOrder={setSortOrder}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+            />
             <div className="overlay-wrapper">
-            <div className="product-grid">
-                {sortedPapers.map((paper, index) => (
-                    <PaperCard key={index} paper={paper} />
-                ))}
+                <div className="product-grid">
+                    {sortedPapers.length > 0 ? (
+                        sortedPapers.map((paper, index) => (
+                            <PaperCard key={index} paper={paper} />
+                        ))
+                    ) : (
+                        <p>No products found</p>
+                    )}
+                </div>
             </div>
         </div>
-    </div>
     );
 }
 
-
-function Sidebar({ setSortOrder }) {
+function Sidebar({ setSortOrder, searchQuery, setSearchQuery }) {
     return (
-        <div className="sidebar" style={{ marginTop: "270px"}}> {/* Add margin-top here */}
+        <div className="sidebar" style={{marginTop: "270px"}}> {/* Add margin-top here */}
+            <div className="search-bar-wrapper">
+                <input
+                    type="text"
+                    className="search-bar"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                />
+            </div>
             <h3>Filter by</h3>
             <div className="filter-options">
                 <div className="filter-option">

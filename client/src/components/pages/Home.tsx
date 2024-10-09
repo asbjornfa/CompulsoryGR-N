@@ -1,49 +1,9 @@
-import React, { useEffect } from "react";
-import { useAtom } from "jotai";
-import { namePaperAtom, stockPaperAtom, pricePaperAtom, PaperAtom } from "../../atoms/PaperAtom";
+
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    const [paperName, setPaperName] = useAtom(namePaperAtom);
-    const [paperStock, setPaperStock] = useAtom(stockPaperAtom);
-    const [paperPrice, setPaperPrice] = useAtom(pricePaperAtom);
-    const [papers, setPapers] = useAtom(PaperAtom);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchPapers = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/paper');
-                if (!response.ok) throw new Error('Failed to fetch papers');
-                const data = await response.json();
-                setPapers(data);
-            } catch (error) {
-                console.error("Error fetching papers:", error);
-            }
-        };
-
-        fetchPapers();
-    }, [setPapers]);
-
-    const handleCreatePaper = async () => {
-        const createPaperDTO = { name: paperName, stock: paperStock, price: paperPrice };
-
-        try {
-            const response = await fetch('http://localhost:5000/api/paper', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(createPaperDTO),
-            });
-
-            if (response.ok) {
-                const newPaper = await response.json();
-                setPapers((prev) => [...prev, newPaper]);
-            }
-        } catch (error) {
-            console.error("Error creating paper:", error);
-        }
-    };
 
     const handleShopNowClick = () => {
         navigate("/Shop");
