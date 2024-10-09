@@ -51,7 +51,7 @@ const OrderHistoryAdmin = () => {
             const updateData = {
                 status: newStatus
             };
-            await api.api.orderUpdateOrder(orderId, updateData);
+            await api.api.orderUpdateOrder(orderId as number, updateData);
 
             setOrders(prevOrders =>
                 prevOrders.map(order =>
