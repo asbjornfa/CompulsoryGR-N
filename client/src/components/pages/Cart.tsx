@@ -8,14 +8,13 @@ function Cart() {
 
     return (
         <div className="cart-container">
-            {cart.length === 0 ? (
+            {cart.dtos!.length === 0 ? (
                 <p>Your cart is empty</p>
             ) : (
-                cart.map((item) => (
-                    <div key={item.product_id} className="cart-item">
-                        <h3>Product ID: {item.product_id}</h3>
+                cart.dtos!.map((item) => (
+                    <div key={item.productId} className="cart-item">
+                        <h3>Product ID: {item.productId}</h3>
                         <p>Quantity: {item.quantity}</p>
-                        <p>Count: {item.count}</p>
                     </div>
                 ))
             )}
