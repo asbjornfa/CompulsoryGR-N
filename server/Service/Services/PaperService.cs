@@ -57,8 +57,7 @@ public class PaperService : IPaper
 
     public async Task<List<ResponseCreatePaperDTO>> GetAllPapers()
     {
-        return await _context.Papers.Include(p => p.Properties)
-            .Select(p => new ResponseCreatePaperDTO
+        return await _context.Papers.Select(p => new ResponseCreatePaperDTO
             {
                 Id = p.Id,
                 Name = p.Name,
