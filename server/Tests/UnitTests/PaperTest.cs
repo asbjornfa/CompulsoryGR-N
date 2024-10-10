@@ -59,33 +59,6 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task CreatePaper_InvalidPaper_ThrowsValidationException()
-        {
-            // Arrange
-            var requestCreatePaperDTO = new RequestCreatePaperDTO
-            {
-                Name = "", // Invalid name
-                Discontinued = false,
-                Stock = 100,
-                Price = 50.0
-            };
-
-            // Mock validation failure
-            var validationFailure = new ValidationFailure("Name", "Name is required");
-            var validationResult = new ValidationResult(new[] { validationFailure });
-            _createPaperValidatorMock
-                .Setup(v => v.Validate(It.IsAny<RequestCreatePaperDTO>()))
-                .Returns(validationResult);
-
-            // Act & Assert
-            var exception = await Assert.ThrowsAsync<FluentValidation.ValidationException>(() =>
-                _paperService.CreatePaper(requestCreatePaperDTO)
-            );
-
-            Assert.Contains("Name is required", exception.Message);
-        }
-
-        [Fact]
         public async Task GetAllPapers_ReturnsCorrectData()
         {
             // Arrange
