@@ -19,13 +19,12 @@ const CreatePaper = () => {
     // Håndtering af oprettelse af papir
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const propserties = props.map(p => p.id!);
         const paperData: RequestCreatePaperDTO = {
             name: name,
             stock: stock,
             price: price,
             discontinued: false,
-            propertyIds: propserties
+            propertyIds: [selectedProp]
         };
 
         try {
@@ -109,13 +108,17 @@ const CreatePaper = () => {
                             Properties
                         </label>
 
-                        <select className="w-full p-2 mb-6 border rounded-md" onChange={function (e) {
-                            console.log(e)
-                            return setSelectedProp(Number(e.target.value));
-                        }} >
+                        <select
+                            className="w-full p-2 mb-6 border rounded-md"
+                            onChange={(e) => setSelectedProp(Number(e.target.value))}  // Husk at caste værdien til et nummer
+                        >
+                            <option value={-1}>Select a property</option>
 
-                            {props.map(p => (<option value={p.id}>{p.propertyName}</option>))}
-
+                            {props.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.propertyName}
+                                </option>
+                            ))}
                         </select>
                         <button
                             type="submit"
