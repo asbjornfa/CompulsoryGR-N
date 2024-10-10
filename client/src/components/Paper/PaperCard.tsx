@@ -52,7 +52,8 @@ function PaperCard({ paper }: { paper: Paper }) {
     return (
         <div className="product-card">
             <h2>{paper.name}</h2>
-            <p>{paper.stock ? "In Stock" : "Out of Stock"}</p>
+            <p>{paper.stock && paper.stock > 0 ? (
+                <p>{paper.stock} In Stock</p>) : ( <p>Out of Stock</p>)}</p>
             <p>{paper.price + "$"}</p>
 
             <div className="product-tags">
