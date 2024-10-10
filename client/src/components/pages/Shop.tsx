@@ -79,8 +79,8 @@ function Sidebar({ setSortOrder, searchQuery, setSearchQuery }) {
             <h3>Filter by</h3>
             <div className="filter-options">
                 <div className="filter-option">
-                    <label htmlFor="price-range">Price</label>
-                    <button onClick={() => setSortOrder("priceDesc")}>Price: High to Low</button>
+                    <button  onClick={() => setSortOrder("priceDesc")}>Price: High to Low</button>
+                    <br/>
                     <button onClick={() => setSortOrder("priceAsc")}>Price: Low to High</button>
                 </div>
             </div>

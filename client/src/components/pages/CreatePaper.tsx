@@ -113,7 +113,7 @@ const CreatePaper = () => {
                             onChange={(e) => setSelectedProp(Number(e.target.value))}  // Husk at caste værdien til et nummer
                         >
                             <option value={-1}>Select a property</option>
-                            {/* Valgmulighed for at vælge ingen */}
+
                             {props.map((p) => (
                                 <option key={p.id} value={p.id}>
                                     {p.propertyName}

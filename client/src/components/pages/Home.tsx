@@ -13,10 +13,10 @@ export default function Home() {
         <main className="main-content">
             <div
                 className="absolute inset-0 flex flex-col justify-center items-center text-center text-white">
-                {/* Overlay */}
+
                 <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-                {/* Hero Content */}
+
                 <div className="relative text-center text-white z-10">
                     
                     <h1 className="text-5xl font-bold mb-4">Welcome to JA Paper</h1>
@@ -26,7 +26,7 @@ export default function Home() {
                             onClick={handleShopNowClick}>Shop Now
                     </button>
 
-                    {/* Dots Navigation */}
+
                     <div className="dots mt-8 flex justify-center space-x-2">
                         <span className="dot w-3 h-3 bg-white rounded-full opacity-70"></span>
                         <span className="dot w-3 h-3 bg-white rounded-full opacity-50"></span>
