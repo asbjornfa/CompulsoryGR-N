@@ -8,7 +8,7 @@ using Service.Services;
 using Service.DTO.Request;
 using Service.DTO.Response;
 
-namespace UnitTests
+namespace Tests.UnitTests
 {
     public class PaperTests
     {
