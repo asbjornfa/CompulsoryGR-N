@@ -118,6 +118,13 @@ export interface ResponseCreatePaperDTO {
   stock?: number;
   /** @format double */
   price?: number;
+  properties?: ResponsePropertyDTO[] | null;
+}
+
+export interface ResponsePropertyDTO {
+  /** @format int32 */
+  id?: number;
+  propertyName?: string;
 }
 
 export interface RequestCreatePaperDTO {

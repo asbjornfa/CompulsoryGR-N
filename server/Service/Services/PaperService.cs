@@ -57,13 +57,19 @@ public class PaperService : IPaper
 
     public async Task<List<ResponseCreatePaperDTO>> GetAllPapers()
     {
-        return await _context.Papers.Select(p => new ResponseCreatePaperDTO
+        return await _context.Papers.Include(p => p.Properties)
+            .Select(p => new ResponseCreatePaperDTO
             {
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
                 Stock = p.Stock,
-                Discontinued = p.Discontinued
+                Discontinued = p.Discontinued,
+                Properties = p.Properties.Select(prop => new ResponsePropertyDTO
+                {
+                    Id = prop.Id,
+                    PropertyName = prop.PropertyName
+                }).ToList() 
             })
             .ToListAsync();
     }

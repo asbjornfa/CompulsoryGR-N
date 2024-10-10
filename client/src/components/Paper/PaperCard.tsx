@@ -1,16 +1,20 @@
-import { RequestCreatePaperDTO } from "../../Api.ts";
+
 import React from "react";
 import { useAtom } from 'jotai';
 import { cartAtom, CartItem } from '../../atoms/CartAtom.tsx';
-import { ResponseCreatePaperDTO } from '../../Api.ts';
+import {ResponseCreatePaperDTO, Properties, Paper} from '../../Api.ts';
+
 
 interface ProductCardProps {
     paper: ResponseCreatePaperDTO;
+
 }
 
-function PaperCard({ paper }: ProductCardProps) {
+function PaperCard({ paper }: { paper: Paper }) {
     const [cart, setCart] = useAtom(cartAtom);
     const [count, setCount] = React.useState(1);
+
+    console.log('Paper properties:', paper.properties);
 
     const increment = () => {
         setCount(prev => prev + 1);
@@ -50,6 +54,12 @@ function PaperCard({ paper }: ProductCardProps) {
             <h2>{paper.name}</h2>
             <p>{paper.stock ? "In Stock" : "Out of Stock"}</p>
             <p>{paper.price + "$"}</p>
+
+            <div className="product-tags">
+                {paper.properties?.map((property: Properties, index: number) => (
+                    <span key={index} className="tag">{property.propertyName}</span>
+                    ))}
+            </div>
             <div className="quantity-control">
                 <button onClick={decrement}>-</button>
                 <span>{count}</span>
