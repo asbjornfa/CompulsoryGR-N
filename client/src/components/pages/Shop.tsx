@@ -42,13 +42,11 @@ export default function Shop() {
                 return 0;
         }
     });
+    
     return (
-        <div className="shop-container">
-            <Sidebar
-                setSortOrder={setSortOrder}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-            />
+        <div className="shop-container" style={{ position: 'relative' }}>
+            <Sidebar setSortOrder={setSortOrder} />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <div className="overlay-wrapper">
                 <div className="product-grid">
                     {sortedPapers.length > 0 ? (
@@ -64,18 +62,32 @@ export default function Shop() {
     );
 }
 
-function Sidebar({ setSortOrder, searchQuery, setSearchQuery }) {
+function SearchBar({ searchQuery, setSearchQuery }) {
     return (
-        <div className="sidebar" style={{marginTop: "270px"}}> {/* Add margin-top here */}
-            <div className="search-bar-wrapper">
-                <input
-                    type="text"
-                    className="search-bar"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search products..."
-                />
-            </div>
+        <div style={{ textAlign: 'center', margin: '0' }}> {/* Ingen margin */}
+            <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                    padding: '10px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    width: '300px', // Justeret bredde
+                }}
+            />
+        </div>
+    );
+}
+
+
+
+
+
+function Sidebar({ setSortOrder }) {
+    return (
+        <div className="sidebar" style={{ marginTop: "270px" }}>
             <h3>Filter by</h3>
             <div className="filter-options">
                 <div className="filter-option">
