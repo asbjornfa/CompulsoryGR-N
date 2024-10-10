@@ -31,6 +31,10 @@ function PaperCard({ paper }: { paper: Paper }) {
             quantity: count,
         };
 
+
+
+
+
         // Opdaterer cart
         setCart(prev => {
             const existingItemIndex = prev.dtos.findIndex(item => item.product_id === newItem.product_id);
@@ -48,6 +52,11 @@ function PaperCard({ paper }: { paper: Paper }) {
 
         setCount(1); // Resetter tælleren til 1
     };
+
+    const updateStock = () => {
+
+
+    }
 
     return (
         <div className="product-card">
