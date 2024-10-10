@@ -281,10 +281,26 @@ code {
 
 .cart-button svg {
     width: 30px; /* Juster bredden */
-    height: 28px; /* Juster højden */
+    height: 30px; /* Juster højden */
     fill: #0000; /* Juster farven, hvis nødvendigt */
 }
 
+
+.cart-indicator {
+    position: absolute;
+    top: 18px; /* Adjust as needed */
+    right: 0; /* Adjust as needed */
+    left: 15px;
+    background-color: #006400;
+    color: white;
+    border-radius: 50%;
+    width: 19px; /* Adjust size */
+    height: 19px; /* Adjust size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px; /* Adjust font size */
+}
 
 .cart-container {
     display: flex;
@@ -469,21 +485,17 @@ code {
 
 .cart-total {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
     padding: 16px 0;
     border-top: 1px solid #eee;
 }
 
 .total-price {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     
-}
-
-.cart-count {
-    color: #666;
-    font-size: 14px;
 }
 
 .checkout-button {

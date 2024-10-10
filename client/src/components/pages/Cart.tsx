@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useAtom } from 'jotai';
 import { cartAtom, CartItem } from '../../atoms/CartAtom';
 import { PaperAtom } from '../../atoms/PaperAtom';
@@ -7,7 +7,7 @@ import ConfirmOrderButton from '../../components/pages/ConfirmOrderButton';
 const Cart = () => {
     const [cart, setCart] = useAtom(cartAtom);
     const [papers] = useAtom(PaperAtom);
-
+    
     const updateQuantity = (product_id: number, quantity: number) => {
         if (quantity < 1) return;
         const updatedDtos = cart.dtos.map((item: CartItem) =>
@@ -15,6 +15,7 @@ const Cart = () => {
         );
         setCart({ ...cart, dtos: updatedDtos });
     };
+    
     
 
     const removeItem = (productId: number) => {
@@ -27,11 +28,42 @@ const Cart = () => {
         return sum + (product?.price ? product.price * item.quantity : 0);
     }, 0);
 
+
+    useEffect(() => {
+        const loadCartFromStorage = () => {
+            try {
+                const savedCart = localStorage.getItem('cart');
+                if (savedCart && savedCart !== 'undefined') {
+                    const parsedCart = JSON.parse(savedCart);
+                    if (parsedCart?.dtos?.length > 0) {
+                        setCart(parsedCart);
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading cart from localStorage:", error);
+            }
+        };
+
+        loadCartFromStorage();
+    }, []); // Empty dependency array means this runs once on mount
+
+    // Save cart to localStorage whenever it changes
+    useEffect(() => {
+        try {
+            if (cart?.dtos) {
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        } catch (error) {
+            console.error("Error saving cart to localStorage:", error);
+        }
+    }, [cart]);
+
+
+
     return (
         <div className="cart-wrapper">
             <div className="cart-container">
-                <h2 className="cart-header">Din indkøbskurv - ({cart.dtos.length})</h2>
-
+                <h2 className="cart-header">Your Shopping cart - ({cart.dtos.length} items)</h2>
                 {cart.dtos.length === 0 ? (
                     <div className="empty-cart">Din kurv er tom.</div>
                 ) : (
@@ -80,8 +112,7 @@ const Cart = () => {
 
                 <div className="cart-footer">
                     <div className="cart-total">
-                        <span className="total-price">Total Pris: {totalPrice} Dkk</span>
-                        <span className="cart-count">Kurv: ({cart.dtos.length})</span>
+                        <span className="total-price">Total Price: {totalPrice}$ USD</span>
                     </div>
                     <ConfirmOrderButton />
                 </div>
